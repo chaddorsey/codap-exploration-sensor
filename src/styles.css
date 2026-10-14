@@ -1,0 +1,94 @@
+/* Light only, on purpose: CODAP itself has no dark theme, so the tile matches
+   its host. Categorical slots 1–5 of the validated dataviz palette, in fixed
+   order; three fall below 3:1 on the surface, so every bar carries a visible
+   label and value (the contrast "relief" rule). */
+:root {
+  --surface: #fcfcfb;
+  --surface-2: #f2f3f5;
+  --border: #d7dbe0;
+  --text: #1d232b;
+  --text-2: #4f5866;
+  --muted: #6b7380;
+  --accent: #2a78d6;
+  --focus: #1c5cab;
+  --s0: #2a78d6;
+  --s1: #eb6834;
+  --s2: #1baf7a;
+  --s3: #eda100;
+  --s4: #e87ba4;
+  --bar: #5598e7;
+  font: 13px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: var(--text);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface); }
+main { padding: 10px 12px 16px; max-width: 520px; }
+h1 { font-size: 15px; margin: 0; }
+h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-2); margin: 0 0 6px; }
+h3 { font-size: 12px; margin: 10px 0 4px; color: var(--text-2); }
+section { padding: 10px 0; border-top: 1px solid var(--border); }
+.muted { color: var(--muted); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+button { font: inherit; min-height: 28px; padding: 3px 10px; border: 1px solid #9aa4b1; border-radius: 5px; background: #fff; color: var(--text); cursor: pointer; }
+button:hover:not(:disabled) { background: #eaf0f6; }
+button:disabled { opacity: .5; cursor: default; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.app-header { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px; }
+.status { font-size: 11px; color: var(--muted); }
+.status[data-connected="true"]::before { content: "● "; color: #1baf7a; }
+.banner { margin: 0 0 8px; padding: 8px; border-radius: 5px; background: #fff6e0; border: 1px solid #ecd28a; font-size: 12px; }
+
+.now-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.now-state { font-size: 17px; font-weight: 700; }
+.now-conf { font-size: 11px; text-align: right; }
+.bars { display: grid; gap: 4px; margin: 8px 0 6px; }
+.bar-row { display: grid; grid-template-columns: 140px 1fr 34px; align-items: center; gap: 6px; font-size: 11px; }
+.track { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.fill { display: block; height: 100%; border-radius: 0 4px 4px 0; transition: width .25s ease; }
+.bar-value { text-align: right; font-variant-numeric: tabular-nums; color: var(--text-2); }
+.evidence { font-size: 11px; margin: 4px 0 0; }
+
+.s0 { background: var(--s0); fill: var(--s0); } .s1 { background: var(--s1); fill: var(--s1); }
+.s2 { background: var(--s2); fill: var(--s2); } .s3 { background: var(--s3); fill: var(--s3); }
+.s4 { background: var(--s4); fill: var(--s4); }
+
+.timeline { position: relative; }
+.timeline-svg { width: 100%; height: auto; display: block; overflow: visible; }
+.timeline-svg .seg { stroke: var(--surface); stroke-width: 1; }
+.timeline-svg .axis { stroke: var(--border); }
+.timeline-svg .move-dot { fill: var(--text); stroke: var(--surface); stroke-width: 2; }
+.timeline-svg .col:focus { outline: none; }
+.timeline-svg .col:focus .seg { stroke: var(--focus); }
+.timeline-empty { font-size: 11px; margin: 4px 0 0; }
+.tooltip { position: absolute; top: -6px; transform: translateY(-100%); width: 220px; padding: 6px 8px; background: #fff; border: 1px solid var(--border); border-radius: 5px; box-shadow: 0 2px 8px rgba(20, 30, 40, .15); font-size: 11px; pointer-events: none; z-index: 2; }
+.tooltip strong { display: block; margin-bottom: 2px; }
+.legend { list-style: none; padding: 0; margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 11px; color: var(--text-2); }
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+.swatch.dot { border-radius: 50%; background: var(--text); width: 8px; height: 8px; }
+
+.counts { width: 100%; border-collapse: collapse; font-size: 11px; }
+.counts th { text-align: left; font-weight: 400; padding: 2px 6px 2px 0; white-space: nowrap; width: 1%; }
+.counts td { padding: 2px 0; position: relative; }
+.counts .cbar { display: inline-block; height: 8px; min-width: 0; background: var(--bar); border-radius: 0 4px 4px 0; vertical-align: middle; max-width: calc(100% - 28px); }
+.counts .cval { margin-left: 6px; font-variant-numeric: tabular-nums; color: var(--text-2); }
+.counts tr.zero { color: var(--muted); }
+.fam { display: inline-block; min-width: 46px; margin-right: 6px; padding: 0 4px; border-radius: 3px; font-size: 10px; text-align: center; background: var(--surface-2); color: var(--text-2); }
+.feed .fam { min-width: 0; }
+.feed { list-style: none; padding: 0; margin: 0; font-size: 12px; max-height: 190px; overflow-y: auto; }
+.feed li { display: flex; gap: 6px; align-items: baseline; padding: 3px 0; border-bottom: 1px solid var(--surface-2); }
+.feed-time { font-variant-numeric: tabular-nums; font-size: 11px; flex: none; width: 38px; }
+.feed li span:last-child { min-width: 0; overflow-wrap: anywhere; }
+
+.research { border-top: 1px solid var(--border); padding: 10px 0; }
+.research summary { cursor: pointer; font-weight: 600; color: var(--text-2); }
+.signal { margin-top: 8px; padding: 8px; border: 1px solid var(--border); border-radius: 6px; }
+.signal-head { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 6px; }
+.meter { position: relative; height: 6px; border-radius: 4px; background: linear-gradient(90deg, #d7dee8 0 33%, #ecc466 33% 66%, #4eae82 66%); }
+.needle { position: absolute; top: -3px; width: 2px; height: 12px; background: var(--text); }
+.prompt { border-left: 3px solid #8293ad; padding-left: 8px; font-size: 12px; }
+.prompt b { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+.warning { font-size: 11px; color: var(--muted); }
+.controls { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+footer.controls { border-top: 1px solid var(--border); padding-top: 10px; }
+.toggle { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; min-height: 28px; }
